@@ -1,3 +1,5 @@
 Go to the gym
 Make dinner
-Edit the list
+Practice Python
+Last todo
+
