@@ -1,0 +1,4 @@
+Clean
+Cook
+Practice more Python
+Last todo
