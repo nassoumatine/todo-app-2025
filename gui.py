@@ -1,6 +1,11 @@
-import functions
+import os
 import FreeSimpleGUI as sg
+import functions
 import time
+
+if not os.path.exists("todos.txt"):
+    with open("todos.txt", "w") as file:
+        pass
 
 sg.theme("Black")
 
@@ -29,7 +34,7 @@ while True:
     if event in ("Exit", sg.WINDOW_CLOSED):
         break
 
-    window["clock"].update(value=time.strftime("%B %d, %Y %H:%M:%S"))
+    window["clock"].update(value=time.strftime("%B %d, %Y %I:%M:%S %p"))
 
     match event:
         case "Add":
@@ -38,6 +43,7 @@ while True:
             functions.write_todos(todos)
 
             window["existing_todo"].update(values=todos)
+            window["new_todo"].update(value="")
 
         case "Edit":
             try:
@@ -59,11 +65,15 @@ while True:
                 functions.write_todos(todos)
 
                 window["existing_todo"].update(values=todos)
+                window["new_todo"].update(value="")
+                sg.popup(f"You completed: {todo_to_complete.strip("\n")}",
+                         font=("Helvetica", 20))
             except IndexError:
                 sg.popup("Please select the item to complete first.", font=("Helvetica", 20))
 
         case "existing_todo":
-            window["new_todo"].update(value=values["existing_todo"][0])
+            if values["existing_todo"]:
+                window["new_todo"].update(value=values["existing_todo"][0])
 
 window.close()
 
